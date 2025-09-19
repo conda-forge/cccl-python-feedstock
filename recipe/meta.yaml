@@ -1,5 +1,5 @@
 {% set name = "cccl-python" %}
-{% set version = "0.2.0" %}
+{% set version = "0.2.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: 8dca4ecf57a86f1c8c5254b646578374774640e03e2f686299906f399a0745dd
+  sha256: 83739bd3dc2a149c6adcf4413ca6265fd6fc66016b051bb6763cefc5454d4a83
 
 build:
   script_env:
