@@ -34,6 +34,11 @@ requirements:
     - {{ stdlib('c') }}
     - cmake
     - ninja
+    - cross-python_{{ target_platform }}    # [build_platform != target_platform]
+    - python                                # [build_platform != target_platform]
+    - cython                                # [build_platform != target_platform]
+    - scikit-build-core >=0.10              # [build_platform != target_platform]
+    - setuptools-scm                        # [build_platform != target_platform]
   host:
     - cuda-version {{ cuda_compiler_version }}
     - cuda-nvrtc-dev
