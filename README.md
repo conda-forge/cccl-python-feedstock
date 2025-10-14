@@ -273,11 +273,9 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
+* [@conda-forge/cuda-python](https://github.com/orgs/conda-forge/teams/cuda-python/)
 * [@cpcloud](https://github.com/cpcloud/)
 * [@leofang](https://github.com/leofang/)
 * [@oleksandr-pavlyk](https://github.com/oleksandr-pavlyk/)
 * [@shwina](https://github.com/shwina/)
-
-
-<!-- dummy commit to enable rerendering -->
 
