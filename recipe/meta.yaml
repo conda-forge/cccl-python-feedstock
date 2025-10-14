@@ -86,6 +86,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - conda-forge/cuda-python
     - leofang
     - cpcloud
     - oleksandr-pavlyk
