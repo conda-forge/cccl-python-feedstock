@@ -22,7 +22,7 @@ build:
     - {{ compiler('cuda') }}
     - cuda-nvrtc-dev
     - libnvjitlink-dev
-    - cuda-driver-dev
+    - cuda-driver-dev  # [linux]
   missing_dso_whitelist:
     - "*/libcuda.so.1"  # [linux]
 
@@ -43,7 +43,7 @@ requirements:
     - cuda-version {{ cuda_compiler_version }}
     - cuda-nvrtc-dev
     - libnvjitlink-dev
-    - cuda-driver-dev
+    - cuda-driver-dev  # [linux]
     - python
     - cython
     - scikit-build-core >=0.10
