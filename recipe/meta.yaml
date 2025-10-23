@@ -34,6 +34,9 @@ build:
     - cuda-driver-dev  # [linux]
   missing_dso_whitelist:
     - "*/libcuda.so.1"  # [linux]
+    - "*/nvcuda.dll"  # [win]
+    # this is dynamically loaded at run time
+    - "*/cccl.c.parallel.dll"  # [win]
 
 requirements:
   build:
