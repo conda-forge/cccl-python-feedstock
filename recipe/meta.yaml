@@ -15,14 +15,14 @@ build:
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}
   script:
-    # We only need cc=52 because of the CCCL C library's design.
+    # We only need cc=75 because of the CCCL C library's design.
     - export CMAKE_GENERATOR=Ninja  # [linux]
-    - export CUDAARCHS=52  # [linux]
+    - export CUDAARCHS=75  # [linux]
     - set "CMAKE_GENERATOR=Ninja"  # [win]
     - set "CMAKE_GENERATOR_TOOLSET="   # [win]
     - set "CMAKE_GENERATOR_PLATFORM="  # [win]
     - set "CUDA_PATH=%PREFIX%\Library"  # [win]
-    - set "CUDAARCHS=52"  # [win]
+    - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
   number: 0
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
