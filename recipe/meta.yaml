@@ -1,5 +1,5 @@
 {% set name = "cccl-python" %}
-{% set version = "0.3.1" %}
+{% set version = "0.3.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,24 +7,36 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: 66a67341a0bc80d0d321bce6e389aa00621313ef0405ec20a60785d1ead9fcaf
+  sha256: 91f879def2557a4326c78e3171f43357b1033ea0223248265bdbbd0a8d7505c7
+  patches:
+    - 6332.patch
 
 build:
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}
-  script: |
-    export CMAKE_GENERATOR=Ninja
-    {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
+  script:
+    # We only need cc=75 because of the CCCL C library's design.
+    - export CMAKE_GENERATOR=Ninja  # [linux]
+    - export CUDAARCHS=75  # [linux]
+    - set "CMAKE_GENERATOR=Ninja"  # [win]
+    - set "CMAKE_GENERATOR_TOOLSET="   # [win]
+    - set "CMAKE_GENERATOR_PLATFORM="  # [win]
+    - set "CUDA_PATH=%PREFIX%\Library"  # [win]
+    - set "CUDAARCHS=75"  # [win]
+    - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
   number: 0
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le or win64]
+  skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
   ignore_run_exports_from:
     - {{ compiler('cuda') }}
     - cuda-nvrtc-dev
     - libnvjitlink-dev
-    - cuda-driver-dev
+    - cuda-driver-dev  # [linux]
   missing_dso_whitelist:
-    - "*/libcuda.so.1"
+    - "*/libcuda.so.1"  # [linux]
+    - "*/nvcuda.dll"  # [win]
+    # this is dynamically loaded at run time
+    - "*/cccl.c.parallel.dll"  # [win]
 
 requirements:
   build:
@@ -43,7 +55,7 @@ requirements:
     - cuda-version {{ cuda_compiler_version }}
     - cuda-nvrtc-dev
     - libnvjitlink-dev
-    - cuda-driver-dev
+    - cuda-driver-dev  # [linux]
     - python
     - cython
     - scikit-build-core >=0.10
@@ -71,8 +83,6 @@ test:
     # which gets loaded on `import` and thus cannot be tested on a CPU-only node.
     # LD_PRELOAD-ing the cuda stub would also work, but alas there's some overzealous
     # invocations of CUDA APIs that prevent that from working too.
-
-
 
 about:
   home: https://github.com/NVIDIA/cccl
