@@ -8,6 +8,8 @@ package:
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
   sha256: 91f879def2557a4326c78e3171f43357b1033ea0223248265bdbbd0a8d7505c7
+  patches:
+    - 6332.patch
 
 build:
   script_env:
