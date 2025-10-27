@@ -1,0 +1,22 @@
+From 49f4f0c89f209f4e8da786c85bd71e1b72c09448 Mon Sep 17 00:00:00 2001
+From: Trent Nelson <trent@trent.me>
+Date: Thu, 23 Oct 2025 15:20:45 -0700
+Subject: [PATCH 2/2] Fix size_t/int error in c/parallel/src/transform.cu.
+
+---
+ c/parallel/src/transform.cu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/c/parallel/src/transform.cu b/c/parallel/src/transform.cu
+index 6f0f7857022..28881e6179a 100644
+--- a/c/parallel/src/transform.cu
++++ b/c/parallel/src/transform.cu
+@@ -209,7 +209,7 @@ struct transform_kernel_source
+   }
+ 
+ private:
+-  static auto is_pointer_aligned(const indirect_iterator_t& it, int alignment)
++  static auto is_pointer_aligned(const indirect_iterator_t& it, ::cuda::std::size_t alignment)
+   {
+     return it.value_size != 0 && ::cuda::is_aligned(*static_cast<char**>(it.ptr), alignment);
+   }
