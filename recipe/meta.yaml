@@ -1,5 +1,11 @@
 {% set name = "cccl-python" %}
-{% set version = "0.3.3" %}
+{% set version = "0.3.4" %}
+
+{% if cuda_compiler_version in (None, "None", True, False) %}
+{% set cuda_major_version = 0 %}
+{% else %}
+{% set cuda_major_version = environ.get("cuda_compiler_version", "12.9").split(".")[0] | int %}
+{% endif %}
 
 package:
   name: {{ name|lower }}
@@ -7,9 +13,7 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: 91f879def2557a4326c78e3171f43357b1033ea0223248265bdbbd0a8d7505c7
-  patches:
-    - 6332.patch
+  sha256: e7ab9ee98d346687dd94706f740155bd1b07342d1f583f36ac25a46c206018b4
 
 build:
   script_env:
@@ -25,7 +29,7 @@ build:
     - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
   number: 0
-  string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: cuda{{ cuda_major_version }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
   ignore_run_exports_from:
     - {{ compiler('cuda') }}
@@ -65,8 +69,9 @@ requirements:
     - {{ pin_compatible("cuda-version", min_pin="x") }}
     - python
     - numba >=0.60.0
-    - cuda-pathfinder >=1.1.0,<2.0.0a0
-    - cuda-core 0.3.*
+    - numpy
+    - cuda-pathfinder >=1.2.3,<2.0.0a0
+    - cuda-core
     - numba-cuda >=0.18.0
     - {{ pin_compatible('cuda-nvrtc', min_pin='x', max_pin='x') }}
     - {{ pin_compatible('libnvjitlink', min_pin='x', max_pin='x') }}
