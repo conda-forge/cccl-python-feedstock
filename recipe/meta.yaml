@@ -28,7 +28,7 @@ build:
     - set "CUDA_PATH=%PREFIX%\Library"  # [win]
     - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
   string: cuda{{ cuda_major_version }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
   ignore_run_exports_from:
