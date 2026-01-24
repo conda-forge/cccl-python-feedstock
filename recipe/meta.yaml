@@ -1,5 +1,5 @@
 {% set name = "cccl-python" %}
-{% set version = "0.4.4" %}
+{% set version = "0.4.5" %}
 
 {% if cuda_compiler_version in (None, "None", True, False) %}
 {% set cuda_major_version = 0 %}
@@ -13,7 +13,7 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: c8c25d106ed8cb23c45e2d211e9932d2de9b730b47ead07f320a221589a85d74
+  sha256: 802172011db5c564f6f11a2be965901b3166889f9c49c16093a061f642b0fe50
 
 build:
   script_env:
@@ -28,7 +28,7 @@ build:
     - set "CUDA_PATH=%PREFIX%\Library"  # [win]
     - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
   string: cuda{{ cuda_major_version }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
   ignore_run_exports_from:
