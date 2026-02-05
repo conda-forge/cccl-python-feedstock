@@ -72,7 +72,7 @@ requirements:
     - numpy
     - cuda-pathfinder >=1.2.3,<2.0.0a0
     - cuda-core
-    - numba-cuda >=0.18.0
+    - numba-cuda >=0.23.0
     - {{ pin_compatible('cuda-nvrtc', min_pin='x', max_pin='x') }}
     - {{ pin_compatible('libnvjitlink', min_pin='x', max_pin='x') }}
   run_constrained:
