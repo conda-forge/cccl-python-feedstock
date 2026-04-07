@@ -1,5 +1,5 @@
 {% set name = "cccl-python" %}
-{% set version = "0.5.1" %}
+{% set version = "0.5.2" %}
 
 {% if cuda_compiler_version in (None, "None", True, False) %}
 {% set cuda_major_version = 0 %}
@@ -13,7 +13,7 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: 20a0135c033ea875efad8cb40d67bfd0e9dceb9f9fd267bb3edea2e9af08c9bf
+  sha256: 6378c56339c0c85289f88f59882aa348df4bc07110c5fe7ae4401184b9700ee4
 
 build:
   script_env:
