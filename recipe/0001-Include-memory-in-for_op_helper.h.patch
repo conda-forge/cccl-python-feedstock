@@ -1,6 +1,6 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 173fa04744085938049b38fddfc1f487a9d41132 Mon Sep 17 00:00:00 2001
 From: Ashwin Srinath <ashwint@nvidia.com>
-Date: Tue, 6 May 2026 00:00:00 +0000
+Date: Wed, 6 May 2026 14:58:23 -0400
 Subject: [PATCH] Include <memory> in for_op_helper.h
 
 std::unique_ptr is used in for_op_helper.h but the <memory> header is
@@ -11,7 +11,7 @@ be available with all standard library implementations.
  1 file changed, 1 insertion(+)
 
 diff --git a/c/parallel/src/for/for_op_helper.h b/c/parallel/src/for/for_op_helper.h
-index 0000000..0000001 100644
+index abedcf73d8..a17b5555c6 100644
 --- a/c/parallel/src/for/for_op_helper.h
 +++ b/c/parallel/src/for/for_op_helper.h
 @@ -11,6 +11,7 @@
@@ -22,3 +22,5 @@ index 0000000..0000001 100644
  #include <string>
  #include <variant>
 
+--
+2.43.0
