@@ -1,5 +1,5 @@
 {% set name = "cccl-python" %}
-{% set version = "0.7.0" %}
+{% set version = "1.0.0" %}
 
 {% if cuda_compiler_version in (None, "None", True, False) %}
 {% set cuda_major_version = 0 %}
@@ -13,7 +13,7 @@ package:
 
 source:
   url: https://github.com/NVIDIA/cccl/archive/refs/tags/python-{{ version }}.tar.gz
-  sha256: 0e6f27719726fe6a81741a842b401514001ce5f898be6d755878f2cdf1dbb22d
+  sha256: 4782d7c6c4dd86eee50c97a6034ecd26853020f5435efd88162a39fc5d1ac75b
   patches:
     - 0001-Include-memory-in-for_op_helper.h.patch
 
@@ -82,14 +82,8 @@ requirements:
 
 test:
   imports:
-    - cuda.cccl
-    - cuda.cccl.headers
-    - cuda.cccl.cooperative
-    # - cuda.cccl.parallel
-    # ideally we could also import cuda.cccl.parallel, but it links to the driver
-    # which gets loaded on `import` and thus cannot be tested on a CPU-only node.
-    # LD_PRELOAD-ing the cuda stub would also work, but alas there's some overzealous
-    # invocations of CUDA APIs that prevent that from working too.
+    - cuda.compute
+    - cuda.coop._experimental
 
 about:
   home: https://github.com/NVIDIA/cccl
