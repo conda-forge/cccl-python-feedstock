@@ -83,7 +83,6 @@ requirements:
 test:
   imports:
     - cuda.compute
-    - cuda.coop._experimental
 
 about:
   home: https://github.com/NVIDIA/cccl
