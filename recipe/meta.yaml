@@ -30,9 +30,9 @@ build:
     - set "CUDA_PATH=%PREFIX%\Library"  # [win]
     - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
   string: cuda{{ cuda_major_version }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
+  skip: true  # [(py < 39) or cuda_compiler_version == "None" or ppc64le]
   ignore_run_exports_from:
     - {{ compiler('cuda') }}
     - cuda-nvrtc-dev
@@ -70,11 +70,10 @@ requirements:
   run:
     - {{ pin_compatible("cuda-version", min_pin="x") }}
     - python
-    - numba >=0.60.0
     - numpy
     - cuda-pathfinder >=1.2.3,<2.0.0a0
     - cuda-core
-    - numba-cuda >=0.23.0
+    - numba-cuda-mlir >=0.5.2,<0.6
     - {{ pin_compatible('cuda-nvrtc', min_pin='x', max_pin='x') }}
     - {{ pin_compatible('libnvjitlink', min_pin='x', max_pin='x') }}
   run_constrained:
