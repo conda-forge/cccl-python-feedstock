@@ -69,6 +69,7 @@ requirements:
     - numpy
     - cuda-pathfinder >=1.2.3,<2.0.0a0
     - cuda-core
+    - cuda-cudart
     - {{ pin_compatible('cuda-nvrtc', min_pin='x', max_pin='x') }}
     - {{ pin_compatible('libnvjitlink', min_pin='x', max_pin='x') }}
   run_constrained:
