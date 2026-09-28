@@ -1,11 +1,7 @@
 {% set name = "cccl-python" %}
 {% set version = "1.2.0" %}
 
-{% if cuda_compiler_version in (None, "None", True, False) %}
-{% set cuda_major_version = 0 %}
-{% else %}
 {% set cuda_major_version = environ.get("cuda_compiler_version", "12.9").split(".")[0] | int %}
-{% endif %}
 
 package:
   name: {{ name|lower }}
@@ -30,9 +26,9 @@ build:
     - set "CUDA_PATH=%PREFIX%\Library"  # [win]
     - set "CUDAARCHS=75"  # [win]
     - {{ PYTHON }} -m pip install python/cuda_cccl -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
   string: cuda{{ cuda_major_version }}_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  skip: true  # [(py < 39) or cuda_compiler_version not in ("12.9","13.0") or ppc64le]
+  skip: true  # [(py < 39) or cuda_compiler_version == "None" or ppc64le]
   ignore_run_exports_from:
     - {{ compiler('cuda') }}
     - cuda-nvrtc-dev
@@ -70,15 +66,16 @@ requirements:
   run:
     - {{ pin_compatible("cuda-version", min_pin="x") }}
     - python
-    - numba >=0.60.0
     - numpy
     - cuda-pathfinder >=1.2.3,<2.0.0a0
     - cuda-core
-    - numba-cuda >=0.23.0
+    - cuda-cudart
     - {{ pin_compatible('cuda-nvrtc', min_pin='x', max_pin='x') }}
     - {{ pin_compatible('libnvjitlink', min_pin='x', max_pin='x') }}
   run_constrained:
     - __cuda >=12.0
+    # optional JIT backend for Python callables
+    - numba-cuda-mlir >=0.5.2,<0.6
 
 test:
   imports:
