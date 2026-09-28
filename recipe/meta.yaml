@@ -1,11 +1,7 @@
 {% set name = "cccl-python" %}
 {% set version = "1.2.0" %}
 
-{% if cuda_compiler_version in (None, "None", True, False) %}
-{% set cuda_major_version = 0 %}
-{% else %}
 {% set cuda_major_version = environ.get("cuda_compiler_version", "12.9").split(".")[0] | int %}
-{% endif %}
 
 package:
   name: {{ name|lower }}
